@@ -47,6 +47,8 @@ public class MainActivity extends Activity {
                 Animation.RELATIVE_TO_SELF, 0f   // End position (0% on Y-axis)
         );
 
+animation.setDuration(5000);
+animation.setFillAfter(true);
         // Start the animation
         imageView.startAnimation(animation);
     }
