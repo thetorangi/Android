@@ -1,0 +1,79 @@
+Calender 
+#XML CODE
+
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- CalendarView -->
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Custom Overlay -->
+    <TextView
+        android:id="@+id/overlayText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:padding="16dp"
+        android:background="@android:color/holo_red_light"
+        android:text="Holiday!"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+</FrameLayout>
+
+JAVA CODE
+// MainActivity.java
+package com.example.apkdone;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.CalendarView;
+import android.widget.TextView;
+
+import java.util.Calendar;
+import java.util.HashSet;
+
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        CalendarView calendarView = findViewById(R.id.calendarView);
+        TextView overlayText = findViewById(R.id.overlayText);
+
+        // Define holidays
+        HashSet<String> holidays = new HashSet<>();
+        holidays.add("1-1-2025");  // New Year's Day
+        holidays.add("15-8-2024"); // Independence Day
+        holidays.add("25-12-2024"); // Christmas
+
+        calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, dayOfMonth);
+
+            // Check if the selected date is a weekend
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            boolean isWeekend = (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY);
+
+            // Check if the selected date is a holiday
+            boolean isHoliday = holidays.contains(dayOfMonth + "-" + (month + 1) + "-" + year);
+
+            if (isWeekend || isHoliday) {
+                overlayText.setVisibility(View.VISIBLE);
+                overlayText.setText(isWeekend ? "Weekend!" : "Holiday!");
+            } else {
+                overlayText.setVisibility(View.GONE);
+            }
+        });
+    }
+}
+

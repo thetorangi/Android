@@ -1,0 +1,139 @@
+#quiz
+
+XML CODE
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Question 1 -->
+    <TextView
+        android:id="@+id/question1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="What is the capital of France?"
+        android:textSize="18sp"/>
+
+    <RadioGroup
+        android:id="@+id/options1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/option1A"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Paris"/>
+
+        <RadioButton
+            android:id="@+id/option1B"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="London"/>
+
+        <RadioButton
+            android:id="@+id/option1C"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Berlin"/>
+    </RadioGroup>
+
+    <!-- Question 2 -->
+    <TextView
+        android:id="@+id/question2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="What is the largest ocean?"
+        android:textSize="18sp"/>
+
+    <RadioGroup
+        android:id="@+id/options2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/option2A"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Atlantic Ocean"/>
+
+        <RadioButton
+            android:id="@+id/option2B"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Indian Ocean"/>
+
+        <RadioButton
+            android:id="@+id/option2C"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pacific Ocean"/>
+    </RadioGroup>
+
+    <!-- Submit Button -->
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"/>
+
+    <!-- Score Display -->
+    <TextView
+        android:id="@+id/score_display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Score is : "
+        android:textSize="18sp"
+        android:paddingTop="16dp"/>
+
+</LinearLayout>
+
+
+
+JAVA CODE
+
+package com.example.layoutsall;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private int score = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main); // Connects to the XML layout
+
+        RadioGroup options1 = findViewById(R.id.options1);
+        RadioGroup options2 = findViewById(R.id.options2);
+        Button submitButton = findViewById(R.id.submit_button);
+        TextView scoreDisplay = findViewById(R.id.score_display);
+
+        submitButton.setOnClickListener(v -> {
+            score = 0;
+
+            int selectedOption1Id = options1.getCheckedRadioButtonId();
+            RadioButton selectedOption1 = findViewById(selectedOption1Id);
+            if (selectedOption1 != null && selectedOption1.getText().toString().equals("Paris")) {
+                score++;
+            }
+
+            int selectedOption2Id = options2.getCheckedRadioButtonId();
+            RadioButton selectedOption2 = findViewById(selectedOption2Id);
+            if (selectedOption2 != null && selectedOption2.getText().toString().equals("Pacific Ocean")) {
+                score++;
+            }
+
+            scoreDisplay.setText("Score: " + score);
+        });
+    }
+}

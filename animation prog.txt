@@ -1,0 +1,53 @@
+#animation prog
+
+XML Code
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_launcher_foreground"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>
+
+
+JAVA CODE
+
+// MainActivity.java
+package com.example.apkdone;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ImageView imageView = findViewById(R.id.imageView);
+
+        TranslateAnimation animation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0f,  // Start position (0%)
+                Animation.RELATIVE_TO_SELF, 1f,  // End position (100% on X-axis)
+                Animation.RELATIVE_TO_SELF, 0f,  // Start position (0% on Y-axis)
+                Animation.RELATIVE_TO_SELF, 0f   // End position (0% on Y-axis)
+        );
+
+        // Start the animation
+        imageView.startAnimation(animation);
+    }
+}

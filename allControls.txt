@@ -1,0 +1,145 @@
+#AllControls 
+XML Codes
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter text" />
+
+    <!-- AutoCompleteTextView -->
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Select an item" />
+
+    <!-- RadioGroup with RadioButtons -->
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 1" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 2" />
+    </RadioGroup>
+
+    <!-- CheckBoxes -->
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check 1" />
+
+    <CheckBox
+        android:id="@+id/checkBox2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check 2" />
+
+    <!-- ImageButton -->
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_camera"
+        android:contentDescription="Image Button" />
+
+    <!-- ToggleButton -->
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="ON"
+        android:textOff="OFF" />
+
+    <!-- Button -->
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit" />
+
+</LinearLayout>
+
+
+JAVA Code
+
+package com.example.allcontrols;
+
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+import android.widget.ToggleButton;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        EditText editText = findViewById(R.id.editText);
+        AutoCompleteTextView autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
+        RadioGroup radioGroup = findViewById(R.id.radioGroup);
+        CheckBox checkBox1 = findViewById(R.id.checkBox1);
+        CheckBox checkBox2 = findViewById(R.id.checkBox2);
+        ImageButton imageButton = findViewById(R.id.imageButton);
+        ToggleButton toggleButton = findViewById(R.id.toggleButton);
+        Button button = findViewById(R.id.button);
+        String[] items = {"Rohit", "Virat Kohli", "MS Dhoni"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, items);
+        autoCompleteTextView.setAdapter(adapter);
+        button.setOnClickListener(v -> {
+            int selectedRadioId = radioGroup.getCheckedRadioButtonId();
+            RadioButton selectedRadioButton = findViewById(selectedRadioId);
+            String selectedRadioText = (selectedRadioButton != null) ? selectedRadioButton.getText().toString() : "None";
+
+            String message = "Text: " + editText.getText().toString() +
+                    "\nAutoComplete: " + autoCompleteTextView.getText().toString() +
+                    "\nRadio: " + selectedRadioText +
+                    "\nCheckBox1: " + (checkBox1.isChecked() ? "Checked" : "Unchecked") +
+                    "\nCheckBox2: " + (checkBox2.isChecked() ? "Checked" : "Unchecked") +
+                    "\nToggle: " + (toggleButton.isChecked() ? "ON" : "OFF");
+
+            Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+        });
+
+        imageButton.setOnClickListener(v -> {
+            Toast.makeText(MainActivity.this, "ImageButton clicked", Toast.LENGTH_SHORT).show();
+        });
+    }
+}
