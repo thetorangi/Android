@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- Button for animation -->
+    <Button
+        android:id="@+id/moveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Move Me"
+        android:layout_centerInParent="true" />
+
+    <!-- Buttons for directions -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Up" />
+
+        <Button
+            android:id="@+id/btnDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Down" />
+
+        <Button
+            android:id="@+id/btnLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Left" />
+
+        <Button
+            android:id="@+id/btnRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Right" />
+
+        <Button
+            android:id="@+id/btnStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop" />
+    </LinearLayout>
+</RelativeLayout>
+
+
+
+
+package com.example.animationdemo;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.animation.TranslateAnimation;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private Button moveButton, btnUp, btnDown, btnLeft, btnRight, btnStop;
+    private TranslateAnimation animation;
+    private RelativeLayout.LayoutParams params;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Initialize buttons
+        moveButton = findViewById(R.id.moveButton);
+        btnUp = findViewById(R.id.btnUp);
+        btnDown = findViewById(R.id.btnDown);
+        btnLeft = findViewById(R.id.btnLeft);
+        btnRight = findViewById(R.id.btnRight);
+        btnStop = findViewById(R.id.btnStop);
+
+        params = (RelativeLayout.LayoutParams) moveButton.getLayoutParams();
+
+        // Move Up
+        btnUp.setOnClickListener(view -> animateButton(0, -200)); // 200px up
+
+        // Move Down
+        btnDown.setOnClickListener(view -> animateButton(0, 200)); // 200px down
+
+        // Move Left
+        btnLeft.setOnClickListener(view -> animateButton(-200, 0)); // 200px left
+
+        // Move Right
+        btnRight.setOnClickListener(view -> animateButton(200, 0)); // 200px right
+
+        // Stop Animation
+        btnStop.setOnClickListener(view -> {
+            if (animation != null) {
+                moveButton.clearAnimation(); // Clear the animation
+            }
+        });
+    }
+
+    // Method to create animation
+    private void animateButton(float toX, float toY) {
+        animation = new TranslateAnimation(0, toX, 0, toY); // From (0,0) to (toX, toY)
+        animation.setDuration(500); // Animation duration 500ms
+        animation.setFillAfter(true); // Retain final position
+        moveButton.startAnimation(animation);
+    }
+}
